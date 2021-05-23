@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const api = {
   key: "eb993b97e96d6e46a231003ef1bde056",
-  base: "api.openweathermap.org/data/2.5/",
+  base: "https://api.openweathermap.org/data/2.5/",
 };
 
 function App() {
@@ -20,7 +20,6 @@ function App() {
         });
     }
   };
-
   const dateBuilder = (d) => {
     let months = [
       "January",
@@ -54,7 +53,15 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div
+      className={
+        typeof weather.main != "undefined"
+          ? weather.main.temp > 16
+            ? "App cold"
+            : "App"
+          : "App"
+      }
+    >
       <main>
         <div className="search-box">
           <input
@@ -73,8 +80,8 @@ function App() {
             </div>
             <div className="date">{dateBuilder(new Date())}</div>
             <div className="weather-box">
-              <div className="temp">15c</div>
-              <div className="weather">Sunny</div>
+              <div className="temp">{Math.round(weather.main.temp)}°C</div>
+              <div className="weather">{weather.weather[0].main}</div>
             </div>
           </div>
         ) : (
